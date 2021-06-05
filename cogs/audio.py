@@ -294,7 +294,7 @@ class AudioCommandMixin(AudioBase):
     @voice_channel_only()
     @bot_connected_only()
     @user_connected_only()
-    @is_admin
+    @is_admin()
     @guild_only()
     @cooldown(1, 35, BucketType.guild)
     async def replay_audio(self, ctx: Context) -> None:
