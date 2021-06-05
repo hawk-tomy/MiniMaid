@@ -344,6 +344,7 @@ class AudioCommandMixin(AudioBase):
         await ctx.embed(embed)
 
     @voice_recorder.command(name="start")
+    @is_admin()
     @voice_channel_only()
     @bot_connected_only()
     @user_connected_only()
@@ -378,6 +379,7 @@ class AudioCommandMixin(AudioBase):
             ctx.command.reset_cooldown(ctx)
 
     @voice_recorder.command(name="stop", aliases=["end"])
+    @is_admin()
     @voice_channel_only()
     @bot_connected_only()
     @user_connected_only()
