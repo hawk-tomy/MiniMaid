@@ -15,7 +15,8 @@ from discord.ext.commands import (
     cooldown,
     BucketType,
     command,
-    is_owner
+    is_owner,
+    check
 )
 import discord
 import aiohttp
@@ -33,6 +34,11 @@ if TYPE_CHECKING:
 
 url_compiled = re.compile(r"^https?://[\w!?/+\-_~=;.,*&@#$%()'\[\]]+$")
 FILESIZE_LIMIT = 25 * 10 ** 6
+
+def is_admin():
+    def deco(ctx):
+        return ctx.guild and ctx.author.permissions_in(ctx.channel).administrator
+    return check(deco)
 
 
 class TagAttachment:
@@ -288,6 +294,7 @@ class AudioCommandMixin(AudioBase):
     @voice_channel_only()
     @bot_connected_only()
     @user_connected_only()
+    @is_admin
     @guild_only()
     @cooldown(1, 35, BucketType.guild)
     async def replay_audio(self, ctx: Context) -> None:
@@ -307,7 +314,7 @@ class AudioCommandMixin(AudioBase):
                 return
             timestamp = datetime.utcnow().timestamp()
             file.seek(0)
-            await ctx.send("作成終了しました。", file=discord.File(file, f"{timestamp}.wav"))
+            await ctx.author.send("作成終了しました。", file=discord.File(file, f"{timestamp}.wav"))
         except Exception as e:
             await ctx.error("エラーが発生しました。")
             raise e
@@ -315,6 +322,7 @@ class AudioCommandMixin(AudioBase):
             self.recording_guilds.remove(ctx.guild.id)
 
     @group(name="record", invoke_without_command=True)
+    @is_admin()
     @guild_only()
     async def voice_recorder(self, ctx: Context) -> None:
         embed = discord.Embed(title="オーディオレコーダーの使い方", colour=discord.Colour.gold())
@@ -330,7 +338,7 @@ class AudioCommandMixin(AudioBase):
         )
         embed.add_field(
             name="録音されたファイルについて",
-            value="録音されたファイルはBotでは保存せずチャンネルにwavファイルとして投稿されます。",
+            value="録音されたファイルはBotでは保存せず実行者のDMにwavファイルとして投稿されます。",
             inline=False
         )
         await ctx.embed(embed)
@@ -360,7 +368,7 @@ class AudioCommandMixin(AudioBase):
             await ctx.success("録音終了しました。")
             timestamp = datetime.utcnow().timestamp()
             file.seek(0)
-            await ctx.send(file=discord.File(file, f"{timestamp}.mp3"))
+            await ctx.author.send(file=discord.File(file, f"{timestamp}.mp3"))
         except Exception as e:
             await ctx.error("エラーが発生しました。")
             raise e
