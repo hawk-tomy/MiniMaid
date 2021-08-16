@@ -41,7 +41,7 @@ example:
 ```
 """
 HELP_MESSAGE = """
-[コマンド一覧](https://github.com/sizumita/MiniMaid/blob/master/docs/Commands.md)
+[コマンド一覧](https://github.com/hawk-tomy/MiniMaid/blob/master/docs/Commands.md)
 """
 
 
