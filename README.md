@@ -2,7 +2,7 @@
 # 機能
 チェックマークがあるものは完了しています。
 
-[コマンド一覧はこちら](https://github.com/sizumita/MiniMaid/blob/master/docs/Commands.md)
+[コマンド一覧はこちら](https://github.com/keizaiya/MiniMaid/blob/develop/docs/Commands.md)
 
 - [ ] ヘルプコマンド
 - [x] チーム分け
