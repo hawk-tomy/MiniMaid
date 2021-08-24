@@ -14,7 +14,8 @@ extensions = [
     "cogs.tts.preference",
     "cogs.audio",
     "cogs.rss",
-    "cogs.help"
+    "cogs.help",
+    "jishaku"
 ]
 
 for extension in extensions:
