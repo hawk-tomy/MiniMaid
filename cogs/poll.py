@@ -306,7 +306,7 @@ class PollCog(Cog):
                 adapter = getattr(conn.cursor(), "_adapt_connection", None)
                 asyncpg_conn = getattr(adapter, "_connection", None)
 
-                await asyncpg_conn.copy_records_to_table(# type: ignore
+                await asyncpg_conn.copy_records_to_table(  # type: ignore
                     'votes',
                     records=adds,
                     columns=("choice_id", "user_id", "created_at")

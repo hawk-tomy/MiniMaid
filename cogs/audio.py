@@ -36,8 +36,8 @@ url_compiled = re.compile(r"^https?://[\w!?/+\-_~=;.,*&@#$%()'\[\]]+$")
 FILESIZE_LIMIT = 25 * 10 ** 6
 
 
-def is_admin()-> Callable[..., Command]:
-    def deco(ctx: Context)-> bool:
+def is_admin() -> Callable[..., Command]:
+    def deco(ctx: Context) -> bool:
         return ctx.guild and ctx.author.permissions_in(ctx.channel).administrator
     return check(deco)
 
