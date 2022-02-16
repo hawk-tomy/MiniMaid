@@ -35,6 +35,7 @@ if TYPE_CHECKING:
 url_compiled = re.compile(r"^https?://[\w!?/+\-_~=;.,*&@#$%()'\[\]]+$")
 FILESIZE_LIMIT = 25 * 10 ** 6
 
+
 def is_admin():
     def deco(ctx):
         return ctx.guild and ctx.author.permissions_in(ctx.channel).administrator
