@@ -1,33 +1,33 @@
-from typing import TYPE_CHECKING, Optional, List, Dict
-from collections import defaultdict
 import asyncio
-import re
-from io import BytesIO
-from uuid import uuid4
-from datetime import datetime
 import os
+import re
+from collections import defaultdict
+from datetime import datetime
+from io import BytesIO
+from typing import TYPE_CHECKING, Callable, Dict, List, Optional
+from uuid import uuid4
 
+import aiohttp
+import discord
 from discord.ext.commands import (
+    BucketType,
     Cog,
+    Command,
     MessageConverter,
+    check,
+    command,
+    cooldown,
     group,
     guild_only,
-    cooldown,
-    BucketType,
-    command,
-    is_owner,
-    check
+    is_owner
 )
-import discord
-import aiohttp
-from sqlalchemy.exc import IntegrityError
-
-from lib.context import Context
-from lib.checks import user_connected_only, bot_connected_only, voice_channel_only
 from lib.audio import AudioEngine
+from lib.checks import bot_connected_only, user_connected_only, voice_channel_only
+from lib.context import Context
 from lib.database.models import AudioTag
 from lib.database.query import select_audio_tag, select_audio_tags
 from lib.discord.voice_client import MiniMaidVoiceClient
+from sqlalchemy.exc import IntegrityError
 
 if TYPE_CHECKING:
     from bot import MiniMaid
@@ -36,8 +36,8 @@ url_compiled = re.compile(r"^https?://[\w!?/+\-_~=;.,*&@#$%()'\[\]]+$")
 FILESIZE_LIMIT = 25 * 10 ** 6
 
 
-def is_admin():
-    def deco(ctx):
+def is_admin()-> Callable[..., Command]:
+    def deco(ctx: Context)-> bool:
         return ctx.guild and ctx.author.permissions_in(ctx.channel).administrator
     return check(deco)
 

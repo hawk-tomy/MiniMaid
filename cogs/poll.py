@@ -1,25 +1,20 @@
 import datetime
-from typing import TYPE_CHECKING, Optional, List, Tuple, Any
 import re
+from typing import TYPE_CHECKING, Any, List, Optional, Tuple
 
 import discord
-from discord.ext.commands import (
-    Cog,
-    group,
-    guild_only
-)
+from discord.ext.commands import Cog, group, guild_only
 from emoji import UNICODE_EMOJI  # type: ignore
-
-from lib.database.query import create_poll, get_poll_by_id
-from lib.embed import (
-    make_poll_embed,
-    make_poll_reserve_embed,
-    make_poll_result_embed,
-    change_footer,
-    make_poll_help_embed
-)
 from lib.context import Context
 from lib.database.models import Poll
+from lib.database.query import create_poll, get_poll_by_id
+from lib.embed import (
+    change_footer,
+    make_poll_embed,
+    make_poll_help_embed,
+    make_poll_reserve_embed,
+    make_poll_result_embed
+)
 
 if TYPE_CHECKING:
     from bot import MiniMaid
@@ -311,7 +306,7 @@ class PollCog(Cog):
                 adapter = getattr(conn.cursor(), "_adapt_connection", None)
                 asyncpg_conn = getattr(adapter, "_connection", None)
 
-                await asyncpg_conn.copy_records_to_table(
+                await asyncpg_conn.copy_records_to_table(# type: ignore
                     'votes',
                     records=adds,
                     columns=("choice_id", "user_id", "created_at")
