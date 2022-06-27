@@ -8,5 +8,5 @@ alembic==1.7.6
 psycopg2==2.9.3
 feedparser==6.0.8
 wheel==0.37.1
-types-emoji==1.2.7
+types-emoji==1.7.2
 jishaku[voice]~=2.3
